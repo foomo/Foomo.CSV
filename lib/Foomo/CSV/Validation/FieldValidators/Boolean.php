@@ -41,7 +41,7 @@ class Boolean extends AbstractValidator
 	 * @param array $true values meaning true
 	 * @param array $false values meaning false
 	 * 
-	 * @return \Foomo\CSV\Validation\FieldValidators\Boolean
+	 * @return Boolean
 	 */
 	public static function create(array $true, array $false)
 	{

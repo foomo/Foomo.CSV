@@ -7,16 +7,21 @@ namespace Foomo\CSV\Validation\FieldValidators;
  * @license www.gnu.org/licenses/lgpl.txt
  * @author Jan Halfar <jan@foomo.org>
  */
-class BooleanTest extends \PHPUnit_Framework_TestCase
+class EnumTest extends \PHPUnit_Framework_TestCase
 {
 	public function testValidator()
 	{
-		$validator = Boolean::create(array('ja', 'true'), array('', 'false'));
-		foreach(array('ja' => true, ' ja ' => true) as $value => $expectedValid) {
+		$validator = Enum::create(array('foo', 'bar', 'boo'));
+		$data = array(
+			'bla' => false,
+			'foo' => true,
+			'bar' => true
+		);
+		foreach($data as $value => $valid) {
 			$field = new ValidatedField;
 			$field->raw = $value;
 			$validator->validate($field);
-			$this->assertEquals($field->valid, $expectedValid);
+			$this->assertEquals($valid, $field->valid);
 		}
 	}
 }

@@ -8,6 +8,8 @@ namespace Foomo\CSV\Validation\FieldValidators;
  */
 class ValidatedField
 {
+	const ERROR_NOTICE = 'notice';
+	const ERROR_WARNING = 'warning';
 	/**
 	 * the raw input
 	 * 
@@ -32,4 +34,9 @@ class ValidatedField
 	 * @var string
 	 */
 	public $report;
+	/**
+	 * 
+	 * @var string
+	 */
+	public $reportLevel;
 }

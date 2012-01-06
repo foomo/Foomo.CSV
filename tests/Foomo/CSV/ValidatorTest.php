@@ -6,6 +6,8 @@
 
 namespace Foomo\CSV;
 
+use Foomo\CSV\Validation\FieldValidators\Boolean;
+
 /**
  * @link www.foomo.org
  * @license www.gnu.org/licenses/lgpl.txt
@@ -19,9 +21,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 	}
 	public function testValidator()
 	{
-		$lineReport =Validator::create()
-			->addFieldValidator('goodBool', new Validation\FieldValidators\Boolean(array('yes'), array('no')))
-			->addFieldValidator('badBool', new Validation\FieldValidators\Boolean(array('yes'), array('no')))
+		$lineReport = Validator::create()
+			->addFieldValidator('goodBool', Boolean::create(array('yes'), array('no')))
+			->addFieldValidator('badBool', Boolean::create(array('yes'), array('no')))
 			->validate($data = array(
 				$goodBoolKey = 'goodBool' => 'yes',
 				$anotherGoodBoolKey = 'goodBool' => 'yes ',

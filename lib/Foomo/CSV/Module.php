@@ -65,7 +65,7 @@ class Module extends \Foomo\Modules\ModuleBase
 	{
 		return array(
 			// get a run mode independent folder var/<runMode>/test
-			// \Foomo\Modules\Resource\Fs::getVarResource(\Foomo\Modules\Resource\Fs::TYPE_FOLDER, 'test'),
+			\Foomo\Modules\Resource\Fs::getVarResource(\Foomo\Modules\Resource\Fs::TYPE_FOLDER, 'test'),
 			// and a file in it
 			// \Foomo\Modules\Resource\Fs::getVarResource(\Foomo\Modules\Resource\Fs::TYPE_File, 'test' . DIRECTORY_SEPARATOR . 'someFile'),
 			// request a cache resource
@@ -74,4 +74,18 @@ class Module extends \Foomo\Modules\ModuleBase
 			// \Foomo\Modules\Resource\Config::getResource('yourModule', 'db')
 		);
 	}
+	//---------------------------------------------------------------------------------------------
+	// ~ Toolbox interface methods
+	//---------------------------------------------------------------------------------------------
+
+	/**
+	 * @internal
+	 * @return array
+	 */
+	public static function getMenu()
+	{
+		return array(
+			\Foomo\Frontend\ToolboxConfig\MenuEntry::create('Root.Modules', 'CSV', self::NAME, 'Foomo.CSV')
+		);
+	}	
 }
