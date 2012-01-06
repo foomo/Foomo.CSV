@@ -1,0 +1,6 @@
+"foo","bar","fooBar","foos","text"
+"Test 1",1,"1,1","a,b,c,la la lo","foo bar bier"
+
+"Test 2",1,"1,1","1,2,3,4","long text with comma"
+"Test 3",1,"1,1",",a,b,,“c“, d",
+"Test 4",1,"1,1",",,,,,,",
