@@ -75,7 +75,7 @@ class Parser implements \Iterator
 	 * @var string
 	 */
 	private $current;
-	private $header = array();
+	private $header;
 	
 	//---------------------------------------------------------------------------------------------
 	// ~ Constructor
@@ -130,7 +130,24 @@ class Parser implements \Iterator
 			fclose($this->fh);
 		}
 	}
-
+	/**
+	 * the array keys / column names of the table
+	 * 
+	 * @return array 
+	 */
+	public function getHeader()
+	{
+		if(is_null($this->header)) {
+			foreach($this as $line) {
+				if(!is_null($this->header)) {
+					break;
+				}
+			}
+			$this->valid();
+			$this->rewind();
+		}
+		return $this->header;
+	}
 	//---------------------------------------------------------------------------------------------
 	// ~ Iterator
 	//---------------------------------------------------------------------------------------------
@@ -149,9 +166,12 @@ class Parser implements \Iterator
 	{
 		return $this->i;
 	}
-
+	
 	public function valid()
 	{
+		if(!is_resource($this->fh) && file_exists($this->filename)) {
+			$this->fh = fopen($this->filename, 'r');
+		}
 		$this->current = '';
 		while(empty($this->current) && !feof($this->fh)) {
 			$line = fgets($this->fh);
@@ -180,7 +200,9 @@ class Parser implements \Iterator
 	public function rewind()
 	{
 		$this->i = 0;
-		rewind($this->fh);
+		if(is_resource($this->fh)) {
+			rewind($this->fh);
+		}
 	}
 
 }

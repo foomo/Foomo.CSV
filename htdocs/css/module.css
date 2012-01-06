@@ -1,0 +1,13 @@
+#csvManager {
+	
+}
+#csvManager table, #csvManager table td, #csvManager table th {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+#csvManager .valid {
+	color: black;
+}
+#csvManager .inValid {
+	color: red;
+}

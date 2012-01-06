@@ -55,7 +55,15 @@ class Module extends \Foomo\Modules\ModuleBase
 	{
 		return 'better csv handling';
 	}
-
+	/**
+	 * my jobs folder resource
+	 * 
+	 * @return Foomo\Modules\Resource\Fs
+	 */
+	public static function getJobsFolderResource()
+	{
+		return \Foomo\Modules\Resource\Fs::getVarResource(\Foomo\Modules\Resource\Fs::TYPE_FOLDER, 'jobs', self::NAME);
+	}
 	/**
 	 * get all the module resources
 	 *
@@ -65,7 +73,7 @@ class Module extends \Foomo\Modules\ModuleBase
 	{
 		return array(
 			// get a run mode independent folder var/<runMode>/test
-			\Foomo\Modules\Resource\Fs::getVarResource(\Foomo\Modules\Resource\Fs::TYPE_FOLDER, 'test'),
+			self::getJobsFolderResource()
 			// and a file in it
 			// \Foomo\Modules\Resource\Fs::getVarResource(\Foomo\Modules\Resource\Fs::TYPE_File, 'test' . DIRECTORY_SEPARATOR . 'someFile'),
 			// request a cache resource

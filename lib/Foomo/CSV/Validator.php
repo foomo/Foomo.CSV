@@ -16,7 +16,7 @@ class Validator
 	public $fieldValidators = array();
 	private function __construct() {}
 	/**
-	 * @return \Foomo\CSV\Validation\Validator
+	 * @return Foomo\CSV\Validation\Validator
 	 */
 	public static function create()
 	{
@@ -30,7 +30,7 @@ class Validator
 			if(isset($this->fieldValidators[$field])) {
 				$validators = $this->fieldValidators[$field];
 			} else {
-				$validators = array(new FieldValidators\NullValidator);
+				$validators = array(new Validation\FieldValidators\NullValidator);
 			}
 			$report[$field] = array();
 			

@@ -9,4 +9,8 @@ namespace Foomo\CSV\Frontend;
  */
 class Model
 {
+	/**
+	 * @var Foomo\CSV\Jobs\Job 
+	 */
+	public $runJob;
 }

@@ -1,5 +1,8 @@
 <?php
+Foomo\HTMLDocument::getInstance()->addStyleSheets(array(
+	Foomo\ROOT_HTTP . '/modules/' . Foomo\CSV\Module::NAME . '/css/module.css'
+));
 
-
-?><h1>Foomo.CSV</h1>
-<?= $view->link('foo', 'foo') ?>
+?>
+<div id="csvManager">
+<h1>Foomo.CSV</h1>
