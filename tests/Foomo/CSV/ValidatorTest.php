@@ -24,6 +24,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		$lineReport = Validator::create()
 			->addFieldValidator('goodBool', Boolean::create(array('yes'), array('no')))
 			->addFieldValidator('badBool', Boolean::create(array('yes'), array('no')))
+			->addLineValidator(new Validation\MockLineValidator())
 			->validate($data = array(
 				$goodBoolKey = 'goodBool' => 'yes',
 				$anotherGoodBoolKey = 'goodBool' => 'yes ',
@@ -32,10 +33,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 		;
 		$keys = array_keys($data);
 		foreach($keys as $key) {
-			$this->assertArrayHasKey($key, $lineReport);
+			$this->assertArrayHasKey($key, $lineReport->fields);
 		}
 		// \Foomo\TestRunner\VerbosePrinter\HTML::dump($lineReport, $goodBoolKey);
-		$this->assertTrue($lineReport[$goodBoolKey][0]->valid);
-		$this->assertFalse($lineReport[$badBoolKey][0]->valid);
+		$this->assertTrue($lineReport->fields[$goodBoolKey][0]->valid);
+		$this->assertFalse($lineReport->fields[$badBoolKey][0]->valid);
 	}
 }

@@ -11,3 +11,10 @@
 #csvManager .inValid {
 	color: red;
 }
+
+#csvManager .validLine {
+
+}
+#csvManager .inValidLine {
+	border: 2px red solid;
+}

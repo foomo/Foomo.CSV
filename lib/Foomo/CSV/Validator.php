@@ -14,6 +14,12 @@ namespace Foomo\CSV;
 class Validator
 {
 	public $fieldValidators = array();
+	/**
+	 * (user) line validators
+	 * 
+	 * @var Validation\AbstractLineValidator[]
+	 */
+	public $lineValidators = array();
 	private function __construct() {}
 	/**
 	 * @return Foomo\CSV\Validation\Validator
@@ -22,9 +28,18 @@ class Validator
 	{
 		return new self;
 	}
+	/**
+	 * validate a line
+	 * 
+	 * @param array $line
+	 * 
+	 * @return Validation\ValidatedLine 
+	 */
 	public function validate(array $line)
 	{
+		$ret = new Validation\ValidatedLine;
 		$report = array();
+		$ret->valid = true;
 		foreach($line as $field => $value) {
 			
 			if(isset($this->fieldValidators[$field])) {
@@ -40,14 +55,21 @@ class Validator
 				$validatedField->raw = $value;
 				$fieldValidator->validate($validatedField);
 				if(!$validatedField->valid) {
+					$ret->valid = false;
 					break;
+				} else {
+					$ret->correctedValues[$field] = $validatedField->correctedValue;
 				}
 			}
 		}
-		return $report;
+		$ret->fields = $report;
+		foreach($this->lineValidators as $lineValidator) {
+			$lineValidator->validateLine($ret);
+		}
+		return $ret;
 	}
 	/**
-	 * add a validato
+	 * add a field validato
 	 * 
 	 * @param type $field
 	 * @param FieldValidators\AbstractFieldValidator $validator 
@@ -60,6 +82,18 @@ class Validator
 			$this->fieldValidators[$field] = array();
 		}
 		$this->fieldValidators[$field][] = $validator;
+		return $this;
+	}
+	/**
+	 * add a line validator
+	 * 
+	 * @param Validation\AbstractLineValidator $validator
+	 * 
+	 * @return Validator 
+	 */
+	public function addLineValidator(Validation\AbstractLineValidator $validator)
+	{
+		$this->lineValidators[] = $validator;
 		return $this;
 	}
 }

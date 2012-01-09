@@ -54,6 +54,7 @@ class ManagerWorld
 		$validator = CSVValidator::create()
 			->addFieldValidator('salutation', Enum::create(array('Mr.', 'Ms.', 'Mrs.')))
 			->addFieldValidator('sex', Enum::create(array('male', 'female')))
+			->addLineValidator(new \Foomo\CSV\Validation\MockLineValidator())
 		;
 		$job = new Job($parser, $validator, $comment = 'that would be  a test address list');
 		$this->myJobId = $job->getId();

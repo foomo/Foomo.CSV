@@ -13,5 +13,6 @@ class NullValidator extends AbstractValidator
 	{
 		$field->valid = true;
 		$field->report = 'no validation';
+		$field->correctedValue = $field->raw;
 	}
 }
