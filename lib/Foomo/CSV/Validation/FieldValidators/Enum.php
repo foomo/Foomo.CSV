@@ -29,8 +29,8 @@ class Enum extends AbstractValidator
 	 * 
 	 * @return \Foomo\CSV\Validation\FieldValidators\Enum
 	 */
-	public static function create(array $allowedValues)
+	public static function create()
 	{
-		return new self($allowedValues);
+		return new self(func_get_arg(0));
 	}
 }

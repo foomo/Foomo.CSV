@@ -43,8 +43,8 @@ class Boolean extends AbstractValidator
 	 * 
 	 * @return Boolean
 	 */
-	public static function create(array $true, array $false)
+	public static function create()
 	{
-		return new self($true, $false);
+		return new self(func_get_arg(0), func_get_arg(1));
 	}
 }

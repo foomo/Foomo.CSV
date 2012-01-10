@@ -55,9 +55,9 @@ class Scalar extends AbstractValidator
 	 * 
 	 * @return \Foomo\CSV\Validation\FieldValidators\Scalar
 	 */
-	public static function create($type)
+	public static function create()
 	{
-		return new self($type);
+		return new self(func_get_arg(0));
 	}
 	
 }

@@ -38,8 +38,8 @@ class Regex extends AbstractValidator
 	 * 
 	 * @param array $expressions 
 	 */
-	public static function create(array $expressions)
+	public static function create()
 	{
-		return new self($expressions);
+		return new self(func_get_arg(0));
 	}
 }

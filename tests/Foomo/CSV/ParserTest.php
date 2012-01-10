@@ -46,6 +46,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 		foreach($this->csvs as $name => $csv) {
 			foreach(array(Parser::PARSE_MODE_ARRAY => 5, Parser::PARSE_MODE_HASH => 4) as $mode => $expectedLines) {
 				$this->assertInternalType('array', $actual = $this->parse($csv['filename'], $mode, $csv['delimiter'], $csv['enclosure']), $name);
+				// \Foomo\TestRunner\VerbosePrinter\HTML::dump($actual);
 				$this->assertCount($expectedLines, $actual, 'failed mode:' . $mode . ' in : ' . $name);
 			}
 		}
@@ -67,7 +68,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 	private function parse($filename, $mode, $delimiter, $enclosure)
 	{
 		$ret = array();
-		foreach(Parser::create($filename, $delimiter, $enclosure)->setParseMode($mode) as $line) {
+		$parser = Parser::create($filename, $delimiter, $enclosure)->setParseMode($mode);
+		if($mode == Parser::PARSE_MODE_HASH) {
+			$parser->getHeader();
+		}
+		foreach($parser as $line) {
 			$ret[] = $line;
 		}
 		return $ret;

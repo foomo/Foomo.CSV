@@ -143,10 +143,10 @@ class Parser implements \Iterator
 					break;
 				}
 			}
-			$this->valid();
-			$this->rewind();
 		}
-		return $this->header;
+		$ret = $this->header;
+		$this->header = null;
+		return $ret;
 	}
 	//---------------------------------------------------------------------------------------------
 	// ~ Iterator
@@ -172,16 +172,7 @@ class Parser implements \Iterator
 		if(!is_resource($this->fh) && file_exists($this->filename)) {
 			$this->fh = fopen($this->filename, 'r');
 		}
-		$this->current = '';
-		while(empty($this->current) && !feof($this->fh)) {
-			$line = fgets($this->fh);
-			$trimmed =trim($line) ;
-			if(!empty($trimmed)) {
-				$this->current = str_getcsv($line, $this->delimiter, $this->enclosure, $this->escape);
-			} else {
-				$this->current = null;
-			}
-		}
+		$this->current = $this->getLine();
 		if($this->parseMode == self::PARSE_MODE_HASH) {
 			if(empty($this->header) && !empty($this->current)) {
 				$this->header = $this->current;
@@ -196,7 +187,17 @@ class Parser implements \Iterator
 		}
 		return !feof($this->fh) || !empty($this->current);
 	}
-
+	private function getLine()
+	{
+		while(!feof($this->fh)) {
+			$line = fgets($this->fh);
+			$trimmed =trim($line) ;
+			if(!empty($trimmed)) {
+				return str_getcsv($line, $this->delimiter, $this->enclosure, $this->escape);
+			}
+		}
+		return null;
+	}
 	public function rewind()
 	{
 		$this->i = 0;
