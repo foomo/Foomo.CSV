@@ -22,7 +22,7 @@ class Validator
 	public $lineValidators = array();
 	private function __construct() {}
 	/**
-	 * @return Foomo\CSV\Validation\Validator
+	 * @return Foomo\CSV\Validator
 	 */
 	public static function create()
 	{

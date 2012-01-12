@@ -10,16 +10,24 @@ namespace Foomo\CSV\Validation\FieldValidators;
 class Enum extends AbstractValidator
 {
 	private $allowedValues = array();
+	private $valuesMap = array();
+	private $mapKeys = array();
 	
-	public function __construct(array $allowedValues)
+	public function __construct(array $allowedValues, array $valueMap = array())
 	{
 		$this->allowedValues = $allowedValues;
+		$this->valuesMap = $valueMap;
+		$this->mapKeys = array_keys($this->valuesMap);
 	}
 	public function validate(ValidatedField $field)
 	{
 		$field->valid = in_array($field->raw, $this->allowedValues);
 		if(!$field->valid) {
 			 $field->report = 'unallowed value ' . $field->raw . ' not in ' . implode(', ', $this->allowedValues);
+		} else {
+			if(isset($this->mapKeys[$field->raw])) {
+				$field->correctedValue = $this->mapKeys[$field->raw];
+			}
 		}
 	}
 	/**

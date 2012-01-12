@@ -7,6 +7,7 @@
 	<table>
 			<thead>
 				<tr>
+					<th>line</th>
 					<? foreach($model->runJob->parser->getHeader() as $label): ?>
 						<th><?= $view->escape($label) ?></th>
 					<? endforeach; ?>
@@ -15,13 +16,15 @@
 			</thead>
 			<tbody>
 				<? 
+					$lineCounter = 0;
 					foreach($model->runJob->parser as $line): 
+						$lineCounter ++;
 						$lineValidation = $model->runJob->validator->validate($line);
 				?>
-					<tr title="<?= $view->escape($lastValidation->report) ?>">
+					<tr title="<?= $view->escape($lastValidation->report) ?>" class="<?= $lineValidation->valid?'validLine':'inValidLine' ?>">
+						<td><?= $lineCounter  ?></td>
 						<? foreach($lineValidation->fields as $column => $validatedFields):
-							$lastValidation = $validatedFields[count($validatedFields)-1]; 
-							//var_dump($lastValidation);
+							$lastValidation = $validatedFields[count($validatedFields)-1];
 						?>
 							<td class="<?= ($lastValidation->valid?'valid':'inValid') ?> ">
 								<? foreach($validatedFields as $validatedField): ?>
@@ -29,7 +32,7 @@
 								<? endforeach; ?>
 							</td>
 						<? endforeach; ?>
-							<td class="<?= $lineValidation->valid?'validLine':'inValidLine' ?>">
+							<td>
 								<?= $view->escape($lineValidation->report) ?>
 							</td>
 					</tr>

@@ -180,7 +180,11 @@ class Parser implements \Iterator
 			} else if(!empty($this->header) && !empty($this->current)) {
 				$currentHash = array();
 				for($i = 0;$i<count($this->header);$i++) {
-					$currentHash[$this->header[$i]] = $this->current[$i];
+					if(isset($this->current[$i])) {
+						$currentHash[$this->header[$i]] = $this->current[$i];
+					} else {
+						$currentHash[$this->header[$i]] = null;
+					}
 				}
 				$this->current = $currentHash;
 			}

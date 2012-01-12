@@ -9,7 +9,8 @@
 	color: black;
 }
 #csvManager .inValid {
-	color: red;
+	background-color: red;
+	color: white;
 }
 
 #csvManager .validLine {
