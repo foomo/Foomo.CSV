@@ -11,23 +11,20 @@ class Enum extends AbstractValidator
 {
 	private $allowedValues = array();
 	private $valuesMap = array();
-	private $mapKeys = array();
 	
-	public function __construct(array $allowedValues, array $valueMap = array())
+	public function __construct(array $allowedValues, array $valuesMap = array())
 	{
 		$this->allowedValues = $allowedValues;
-		$this->valuesMap = $valueMap;
-		$this->mapKeys = array_keys($this->valuesMap);
+		$this->valuesMap = $valuesMap;
 	}
 	public function validate(ValidatedField $field)
 	{
 		$field->valid = in_array($field->raw, $this->allowedValues);
 		if(!$field->valid) {
 			 $field->report = 'unallowed value ' . $field->raw . ' not in ' . implode(', ', $this->allowedValues);
-		} else {
-			if(isset($this->mapKeys[$field->raw])) {
-				$field->correctedValue = $this->mapKeys[$field->raw];
-			}
+		} else if(isset($this->valuesMap[$field->raw])) {
+			$field->correctedValue = $this->valuesMap[$field->raw];
+			$field->valid = true;
 		}
 	}
 	/**

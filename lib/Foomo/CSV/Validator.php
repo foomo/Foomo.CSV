@@ -58,10 +58,14 @@ class Validator
 					$ret->valid = false;
 					break;
 				} else {
-					$ret->correctedValues[$field] = $validatedField->correctedValue;
+					$value = $validatedField->correctedValue;
 				}
 			}
+			if($validatedField->valid) {
+				$ret->correctedValues[$field] = $validatedField->correctedValue;				
+			}
 		}
+		
 		$ret->fields = $report;
 		foreach($this->lineValidators as $lineValidator) {
 			$lineValidator->validateLine($ret);
