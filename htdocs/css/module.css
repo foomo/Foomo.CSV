@@ -14,8 +14,9 @@
 }
 
 #csvManager .validLine {
-
+	display: none;
 }
+
 #csvManager .inValidLine {
 	border: 2px red solid;
 }

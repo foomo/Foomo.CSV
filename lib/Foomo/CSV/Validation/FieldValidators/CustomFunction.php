@@ -11,7 +11,7 @@ class CustomFunction extends AbstractValidator
 {
 	private $function = '';
 
-	public function __construct($function)
+	private function __construct($function)
 	{
 		$this->function = $function;
 	}
@@ -21,17 +21,19 @@ class CustomFunction extends AbstractValidator
 		if (is_callable($this->function))
 		{
 			$field->valid = true;
-			$field->correctedValue = call_user_func($this->function, $field->raw);
+			$field->correctedValue = call_user_func_array($this->function, array($field->raw));
 		}
 	}
 
 	/**
 	 * create
 	 *
+	 * @param function validationFunction
+	 *
 	 * @return \Foomo\CSV\Validation\FieldValidators\CustomFunction
 	 */
 	public static function create()
 	{
-		return new self();
+		return new self(func_get_arg(0));
 	}
 }

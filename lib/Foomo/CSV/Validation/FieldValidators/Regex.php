@@ -11,15 +11,15 @@ class Regex extends AbstractValidator
 {
 	/**
 	 * regular experssion to match to
-	 * 
+	 *
 	 * @var string
 	 */
 	public $expressions;
-	private function __construct(array $expressions)
+	public function __construct(array $expressions)
 	{
 		$this->expressions = $expressions;
 	}
-	
+
 	public function validate(ValidatedField $field)
 	{
 		foreach($this->expressions as $expression) {
@@ -32,11 +32,11 @@ class Regex extends AbstractValidator
 		$field->report = 'could not find a match';
 		$field->valid = false;
 	}
-	
+
 	/**
 	 * matching expressions
-	 * 
-	 * @param array $expressions 
+	 *
+	 * @param array $expressions
 	 */
 	public static function create()
 	{
