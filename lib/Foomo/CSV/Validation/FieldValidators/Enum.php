@@ -11,11 +11,13 @@ class Enum extends AbstractValidator
 {
 	private $allowedValues = array();
 	private $valuesMap = array();
-	
-	public function __construct(array $allowedValues, array $valuesMap = array())
+	private $defaultValue = null;
+
+	public function __construct(array $allowedValues, array $valuesMap = array(), $defaultValue = null)
 	{
 		$this->allowedValues = $allowedValues;
 		$this->valuesMap = $valuesMap;
+		$this->defaultValue = $defaultValue;
 	}
 	public function validate(ValidatedField $field)
 	{
@@ -26,12 +28,16 @@ class Enum extends AbstractValidator
 			$field->correctedValue = $this->valuesMap[$field->raw];
 			$field->valid = true;
 		}
+		if(!$field->valid && $this->defaultValue !== null) {
+			$field->correctedValue = $this->defaultValue;
+			$field->valid = true;
+		}
 	}
 	/**
 	 * create
-	 * 
+	 *
 	 * @param array $allowedValues
-	 * 
+	 *
 	 * @return \Foomo\CSV\Validation\FieldValidators\Enum
 	 */
 	public static function create()
