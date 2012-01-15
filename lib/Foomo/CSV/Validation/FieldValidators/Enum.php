@@ -42,6 +42,10 @@ class Enum extends AbstractValidator
 	 */
 	public static function create()
 	{
-		return new self(func_get_arg(0), func_get_arg(1), func_get_arg(2));
+		$args = func_get_args();
+		return new self(
+			$args[0],
+			isset($args[1]) ? $args[1] : array(),
+			isset($args[2]) ? $args[2] : null);
 	}
 }
