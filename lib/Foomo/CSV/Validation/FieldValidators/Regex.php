@@ -15,7 +15,7 @@ class Regex extends AbstractValidator
 	 * @var string
 	 */
 	public $expressions;
-	public function __construct(array $expressions)
+	private function __construct(array $expressions)
 	{
 		$this->expressions = $expressions;
 	}

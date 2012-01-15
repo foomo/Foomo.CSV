@@ -13,7 +13,7 @@ class Enum extends AbstractValidator
 	private $valuesMap = array();
 	private $defaultValue = null;
 
-	public function __construct(array $allowedValues, array $valuesMap = array(), $defaultValue = null)
+	private function __construct(array $allowedValues, array $valuesMap = array(), $defaultValue = null)
 	{
 		$this->allowedValues = $allowedValues;
 		$this->valuesMap = $valuesMap;
@@ -42,6 +42,6 @@ class Enum extends AbstractValidator
 	 */
 	public static function create()
 	{
-		return new self(func_get_arg(0));
+		return new self(func_get_arg(0), func_get_arg(1), func_get_arg(2));
 	}
 }
