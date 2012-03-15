@@ -14,73 +14,73 @@ namespace Foomo\CSV;
  */
 class Parser implements \Iterator
 {
-	
+
 	/**
 	 * my parse mode @see self::PARSE_MODE_
-	 * 
-	 * @var type 
+	 *
+	 * @var type
 	 */
 	public $parseMode = self::PARSE_MODE_HASH;
-	
+
 	//---------------------------------------------------------------------------------------------
 	// ~ Constants
 	//---------------------------------------------------------------------------------------------
-	
+
 	/**
-	 * use the first line as keys for each line 
+	 * use the first line as keys for each line
 	 */
 	const PARSE_MODE_HASH = 'hash';
 	/**
-	 * numbered columns 
+	 * numbered columns
 	 */
 	const PARSE_MODE_ARRAY = 'array';
-	
+
 	//---------------------------------------------------------------------------------------------
 	// ~ private props
 	//---------------------------------------------------------------------------------------------
 	/**
 	 * csv file handle
-	 * 
+	 *
 	 * @var resource
 	 */
 	private $fh;
 	/**
 	 * csv file
-	 * 
+	 *
 	 * @var string
 	 */
 	private $filename;
 	/**
 	 * csv delimiter
-	 * 
-	 * @var type 
+	 *
+	 * @var type
 	 */
 	private $delimiter = ',';
 	/**
 	 * csv text/cell enclosure
-	 * 
-	 * @var type 
+	 *
+	 * @var type
 	 */
 	private $enclosure = '"';
 	/**
 	 * csv text escape
-	 * 
-	 * @var type 
+	 *
+	 * @var type
 	 */
 	private $escape = '\\';
 	private $i = 0;
 	/**
 	 * current line
-	 * 
+	 *
 	 * @var string
 	 */
 	private $current;
 	private $header;
-	
+
 	//---------------------------------------------------------------------------------------------
 	// ~ Constructor
 	//---------------------------------------------------------------------------------------------
-	
+
 	private function __construct($filename, $delimiter, $enclosure, $escape)
 	{
 		$this->filename = $filename;
@@ -93,12 +93,12 @@ class Parser implements \Iterator
 	//---------------------------------------------------------------------------------------------
 	// ~ public interface
 	//---------------------------------------------------------------------------------------------
-	
+
 	/**
 	 * array or hash
-	 * 
-	 * @param type $parseMode 
-	 * 
+	 *
+	 * @param type $parseMode
+	 *
 	 * @return Parser
 	 */
 	public function setParseMode($parseMode)
@@ -116,8 +116,8 @@ class Parser implements \Iterator
 	 * @param type $filename
 	 * @param type $delimiter
 	 * @param type $enclosure
-	 * @param type $escape 
-	 * 
+	 * @param type $escape
+	 *
 	 * @return Parser
 	 */
 	public static function create($filename, $delimiter = ',', $enclosure = '"', $escape = '\\')
@@ -132,8 +132,8 @@ class Parser implements \Iterator
 	}
 	/**
 	 * the array keys / column names of the table
-	 * 
-	 * @return array 
+	 *
+	 * @return array
 	 */
 	public function getHeader()
 	{
@@ -154,7 +154,7 @@ class Parser implements \Iterator
 
 	public function current()
 	{
-		
+
 		return $this->current;
 	}
 
@@ -166,7 +166,7 @@ class Parser implements \Iterator
 	{
 		return $this->i;
 	}
-	
+
 	public function valid()
 	{
 		if(!is_resource($this->fh) && file_exists($this->filename)) {
@@ -191,17 +191,25 @@ class Parser implements \Iterator
 		}
 		return !feof($this->fh) || !empty($this->current);
 	}
+
 	private function getLine()
 	{
 		while(!feof($this->fh)) {
-			$line = fgets($this->fh);
-			$trimmed =trim($line) ;
-			if(!empty($trimmed)) {
-				return str_getcsv($line, $this->delimiter, $this->enclosure, $this->escape);
+			$line = fgetcsv($this->fh, 0, $this->delimiter, $this->enclosure, $this->escape);
+			$empty = true;
+			if (!empty ($line)) foreach ($line as $field) {
+				$trimmed = trim($field);
+				if (!empty($trimmed)) {
+					$empty = false;
+				}
+			}
+			if(!$empty) {
+				return $line;
 			}
 		}
 		return null;
 	}
+
 	public function rewind()
 	{
 		$this->i = 0;
